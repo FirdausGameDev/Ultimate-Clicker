@@ -1,0 +1,34 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #222;
+    color: white;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+.counter {
+    font-size: 30px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+.click-button {
+    padding: 20px 40px;
+    font-size: 20px;
+    background: linear-gradient(45deg, #ff416c, #ff4b2b);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.click-button:active {
+    transform: scale(0.95);
+}
