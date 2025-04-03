@@ -2,17 +2,85 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="telegram-web-app" content="true">
-    <title>Лучший Clicker</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clicker Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .button {
+            font-size: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .button:disabled {
+            background-color: grey;
+        }
+        #coins, #upgradeButton {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Кликер-игра</h1>
-    <p class="counter">Очки: <span id="score">0</span></p>
-    <button class="click-button" onclick="increaseScore()">Клик!</button>
 
-    <script src="script.js"></script>
+    <h1>Clicker Game</h1>
+    <p>Каждый клик дает 1 монету!</p>
+    
+    <button class="button" id="clickButton">Кликни!</button>
+
+    <div id="coins">Монеты: 0</div>
+    <div id="upgradeButton">
+        <button class="button" id="buyUpgrade" disabled>Купить улучшение (Цена: 10 монет)</button>
+    </div>
+
+    <script>
+        let coins = 0;  // количество монет
+        let upgradeCost = 10;  // цена улучшения
+        let clickPower = 1;  // сколько монет даёт 1 клик
+
+        const clickButton = document.getElementById('clickButton');
+        const coinsDisplay = document.getElementById('coins');
+        const buyUpgradeButton = document.getElementById('buyUpgrade');
+
+        // Обработчик для клика
+        clickButton.addEventListener('click', () => {
+            coins += clickPower;
+            updateCoins();
+            checkUpgradeAvailability();
+        });
+
+        // Обработчик для покупки улучшения
+        buyUpgradeButton.addEventListener('click', () => {
+            if (coins >= upgradeCost) {
+                coins -= upgradeCost;
+                clickPower += 1;  // увеличиваем мощность клика
+                upgradeCost = Math.floor(upgradeCost * 1.5);  // увеличиваем цену улучшения
+                updateCoins();
+                checkUpgradeAvailability();
+                alert('Улучшение куплено! Теперь каждый клик даёт ' + clickPower + ' монет!');
+            }
+        });
+
+        // Обновление отображения монет
+        function updateCoins() {
+            coinsDisplay.innerHTML = `Монеты: ${coins}`;
+        }
+
+        // Проверка доступности улучшения
+        function checkUpgradeAvailability() {
+            if (coins >= upgradeCost) {
+                buyUpgradeButton.disabled = false;
+            } else {
+                buyUpgradeButton.disabled = true;
+            }
+        }
+    </script>
+
 </body>
 </html>
