@@ -22,7 +22,7 @@
         .button:disabled {
             background-color: grey;
         }
-        #coins, #upgradeButton {
+        #coins, #upgradeButton, #achievements {
             margin-top: 20px;
         }
     </style>
@@ -38,36 +38,45 @@
     <div id="upgradeButton">
         <button class="button" id="buyUpgrade" disabled>Купить улучшение (Цена: 10 монет)</button>
     </div>
+    
+    <div id="achievements">
+        <h2>Достижения:</h2>
+        <p id="achievementsList">Пока нет достижений.</p>
+    </div>
 
     <script>
-        let coins = 0;  // количество монет
-        let upgradeCost = 10;  // цена улучшения
-        let clickPower = 1;  // сколько монет даёт 1 клик
+        let coins = 0;
+        let upgradeCost = 10;
+        let clickPower = 1;
+        let clicks = 0;  // Количество кликов
 
         const clickButton = document.getElementById('clickButton');
         const coinsDisplay = document.getElementById('coins');
         const buyUpgradeButton = document.getElementById('buyUpgrade');
+        const achievementsList = document.getElementById('achievementsList');
 
         // Обработчик для клика
         clickButton.addEventListener('click', () => {
             coins += clickPower;
+            clicks++;
             updateCoins();
             checkUpgradeAvailability();
+            checkAchievements();
         });
 
         // Обработчик для покупки улучшения
         buyUpgradeButton.addEventListener('click', () => {
             if (coins >= upgradeCost) {
                 coins -= upgradeCost;
-                clickPower += 1;  // увеличиваем мощность клика
-                upgradeCost = Math.floor(upgradeCost * 1.5);  // увеличиваем цену улучшения
+                clickPower += 1;
+                upgradeCost = Math.floor(upgradeCost * 1.5);
                 updateCoins();
                 checkUpgradeAvailability();
-                alert('Улучшение куплено! Теперь каждый клик даёт ' + clickPower + ' монет!');
+                alert('Улучшение куплено!');
             }
         });
 
-        // Обновление отображения монет
+        // Обновление монет
         function updateCoins() {
             coinsDisplay.innerHTML = `Монеты: ${coins}`;
         }
@@ -78,6 +87,18 @@
                 buyUpgradeButton.disabled = false;
             } else {
                 buyUpgradeButton.disabled = true;
+            }
+        }
+
+        // Проверка достижений
+        function checkAchievements() {
+            let achievements = [];
+            if (clicks >= 100) achievements.push('100 кликов!');
+            if (coins >= 1000) achievements.push('1000 монет!');
+            if (achievements.length > 0) {
+                achievementsList.innerHTML = achievements.join('<br>');
+            } else {
+                achievementsList.innerHTML = 'Пока нет достижений.';
             }
         }
     </script>
